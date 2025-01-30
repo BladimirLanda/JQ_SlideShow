@@ -4,19 +4,19 @@ $(document).ready( app() );
 
 function app() {
 
-    //Plugin: Declaración
+    //Declaración de Plugin o complemento de jQuery -> $.pluginDeclarado 
     $.slideShow = function(opciones) {
 
+        //Parametros
         opcionesPlugin = $.extend({   
             divDestino: ".slide-show",
             slidesNum: [],
             anchoSlide: 600,
             intervalo: 1500,
             colorBtn: 'yellow'
-
         }, opciones);
 
-        const {divDestino, slidesNum, anchoSlide, intervalo, colorBtn} = opcionesPlugin;
+        const { divDestino, slidesNum, anchoSlide, intervalo, colorBtn } = opcionesPlugin;
 
         if(slidesNum.length === 0) {
             alert('ERROR: Los slides son necesarios');
@@ -51,41 +51,27 @@ function app() {
 
         contenido += '</div>';
 
-        //--after/before: Coloca el elemento como hermano
-        $(divDestino).after(contenido);
+        $(divDestino).after(contenido); //.after()|.before(): Coloca el elemento como hermano
 
         const $slideShowButtons = $('.slideShowButtons');
 
-        //Funcionalidad
-
+        //Funciones
         $slideShowButtons.find('div').eq(0).css({
             backgroundColor: colorBtn
         });
 
-        const interval = window.setInterval(function() {
-            move();
-        }, intervalo);
-
-        $('.slideButton').on('click', function() {
-            let idx = $(this).data('idx');
-            idx *= -1;
-
-            const click = true;
-
-            moverxPunto(idx, click);
-        });
-
+        //--
         function move() {
-
             actual--;
 
-            if( actual <= (slides * -1)) {
+            if(actual <= (slides * -1)) {
                 actual = 0;
             }
 
             moverxPunto(actual);
         }
 
+        //--
         function moverxPunto(actual, click) {
             if(click) {
                 window.clearInterval(interval);
@@ -95,7 +81,7 @@ function app() {
 
             const idx = actual * -1;
             const $puntoActual = $slideShowButtons.find('div').eq(idx);
-            const $puntosOtros = $slideShowButtons.find('div').not($puntoActual);
+            const $puntosOtros = $slideShowButtons.find('div').not($puntoActual); //.not(): Método de exclusión
             
 
             $slideShow.animate({
@@ -110,6 +96,21 @@ function app() {
                 backgroundColor: '#a1a1a1'
             });
         }
+
+        //--
+        const interval = window.setInterval(function() {
+            move();
+        }, intervalo);
+
+        //--
+        $('.slideButton').on('click', function() {
+            let idx = $(this).data('idx');
+            idx *= -1;
+
+            const click = true;
+
+            moverxPunto(idx, click);
+        });
 
     }
 
